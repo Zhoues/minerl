@@ -1,8 +1,9 @@
 # Copyright (c) 2020 All Rights Reserved
 # Author: William H. Guss, Brandon Houghton
 
-
+# NOTE Modified: Support Chat Action
 from .camera import *
+from .chat import *
 from .mousewheel import *
 from .craft import *
 from .equip import *

@@ -32,6 +32,17 @@ class _SingleAgentEnv(_MultiAgentEnv):
 
         return obs[aname], rew[aname], done, info[aname]
 
+    # NOTE Modified: Support Chat Action
+    def execute_cmd(self, command: str) -> Tuple[
+        Dict[str, Any], float, bool, Dict[str, Any]]:
+
+        single_agent_action = self.noop_action()
+
+        assert "chat" in single_agent_action, "Please modify the agent's action space to support chat actions."
+        single_agent_action["chat"] = command
+
+        return self.step(single_agent_action = single_agent_action)
+
     def render(self, mode='human'):
         return super().render(mode)[self.task.agent_names[0]]
 

@@ -65,9 +65,10 @@ class HumanControlEnvSpec(EnvSpec, ABC):
         Simple envs have some basic keyboard control functionality, but
         not all.
         """
+        # NOTE Modified: Support Chat Action
         return [
            H.KeybasedCommandAction(v, v) for v in mc.KEYMAP.values()
-        ] + [H.CameraAction()]
+        ] + [H.CameraAction()] + [H.ChatAction()]
 
     def create_monitors(self) -> List[TranslationHandler]:
         return [H.IsGuiOpen(), H.ObservationFromCurrentLocation()]

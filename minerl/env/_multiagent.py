@@ -262,6 +262,9 @@ class _MultiAgentEnv(gym.Env):
         action_str = []
         for h in bottom_env_spec.actionables:
             if h.to_string() in action_in:
+                # NOTE Modified: Support Chat Action
+                if h.to_string() == "chat" and action_in[h.to_string()] == "":
+                    continue
                 action_str.append(h.to_hero(action_in[h.to_string()]))
 
         return "\n".join(action_str)

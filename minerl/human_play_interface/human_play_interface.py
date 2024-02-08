@@ -42,6 +42,8 @@ MINERL_ACTION_TO_KEYBOARD = {
 
 KEYBOARD_TO_MINERL_ACTION = {v: k for k, v in MINERL_ACTION_TO_KEYBOARD.items()}
 
+# NOTE Modified: Support Chat Action
+IGNORED_ACTIONS = {"chat"}
 
 # Camera actions are in degrees, while mouse movement is in pixels
 # Multiply mouse speed by some arbitrary multiplier
@@ -113,15 +115,16 @@ class HumanPlayInterface(gym.Wrapper):
         self.last_mouse_delta[0] -= dy * MOUSE_MULTIPLIER
         self.last_mouse_delta[1] += dx * MOUSE_MULTIPLIER
 
+    # NOTE Modified: Support Chat Action
     def _validate_minerl_env(self, minerl_env):
         """Make sure we have a valid MineRL environment. Raises if not."""
         # Make sure action has right items
-        remaining_buttons = set(MINERL_ACTION_TO_KEYBOARD.keys())
+        remaining_buttons = set(MINERL_ACTION_TO_KEYBOARD.keys()).union(IGNORED_ACTIONS)
         remaining_buttons.add("camera")
         for action_name, action_space in minerl_env.action_space.spaces.items():
             if action_name not in remaining_buttons:
                 raise RuntimeError(f"Invalid MineRL action space: action {action_name} is not supported.")
-            elif (not isinstance(action_space, spaces.Discrete) or action_space.n != 2) and action_name != "camera":
+            elif not action_name in IGNORED_ACTIONS and (not isinstance(action_space, spaces.Discrete) or action_space.n != 2) and action_name != "camera":
                 raise RuntimeError(f"Invalid MineRL action space: action {action_name} had space {action_space}. Only Discrete(2) is supported.")
             remaining_buttons.remove(action_name)
         if len(remaining_buttons) > 0:
