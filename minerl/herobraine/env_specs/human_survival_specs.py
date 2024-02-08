@@ -10,10 +10,15 @@ from minerl.herobraine.env_spec import EnvSpec
 
 
 class HumanSurvival(HumanControlEnvSpec):
-    def __init__(self, *args, load_filename=None, **kwargs):
+    def __init__(self, *args, load_filename=None, inventory = None, preferred_spawn_biome = None, **kwargs):
         if "name" not in kwargs:
             kwargs["name"] = "MineRLHumanSurvival-v0"
+        
+        # NOTE Modified: Support init inventory and biome
         self.load_filename = load_filename
+        self.inventory = inventory
+
+        self.preferred_spawn_biome = preferred_spawn_biome
         super().__init__(
             *args, **kwargs
         )
@@ -50,6 +55,11 @@ class HumanSurvival(HumanControlEnvSpec):
         retval = super().create_agent_start()
         if self.load_filename is not None:
             retval.append(handlers.LoadWorldAgentStart(self.load_filename))
+        # NOTE Modified: Support init inventory and biome
+        if self.inventory is not None:
+            retval.append(handlers.SimpleInventoryAgentStart(self.inventory))
+        if self.preferred_spawn_biome is not None:
+            retval.append(handlers.PreferredSpawnBiome(self.preferred_spawn_biome))
         return retval
 
     def create_agent_handlers(self) -> List[Handler]:
