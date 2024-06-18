@@ -13,6 +13,9 @@ Curious to see what people have done with MineRL? See [this page where we collec
 
 To get started with MineRL, [check out the docs here](https://minerl.readthedocs.io/en/latest/)!
 
+## ⚠️Update regarding MineRL-v0 data on 17th June 2024
+The original data mirrors for MineRL-v0 are down (e.g., original `MineRLObtainDiamond-v0` data). We have uploaded copies of the primary datasets to this Zenodo record so people can find them: https://zenodo.org/records/11996496
+
 ## MineRL Versions
 
 MineRL consists of three unique versions, each with a slightly different sets of features. See full comparison [here](https://minerl.readthedocs.io/en/v1.0.0/notes/versions.html).
